@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 const todoContext = createContext();
 
@@ -8,7 +8,7 @@ const INITIAL_TODO = [
   {
     id: "312hj314",
     text: "Este es un item de prueba",
-    completed: true,
+    completed: false,
   },
   {
     id: "31213sf2hj314",
@@ -19,6 +19,10 @@ const INITIAL_TODO = [
 
 export const ContextProvider = ({ children }) => {
   const [items, setItems] = useState(INITIAL_TODO);
+
+  useEffect(() => {
+    console.log(items);
+  }, [items]);
   return (
     <todoContext.Provider value={{ items, setItems }}>
       {children}

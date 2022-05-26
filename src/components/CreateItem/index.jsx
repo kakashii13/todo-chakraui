@@ -1,4 +1,9 @@
-import { FormControl, FormErrorMessage, Input } from "@chakra-ui/react";
+import {
+  FormControl,
+  FormErrorMessage,
+  Input,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useTodoContext } from "../../context/TodoContext";
 import { v4 as uuidv4 } from "uuid";
@@ -11,6 +16,8 @@ export const CreateItem = () => {
     text: "",
     complete: false,
   });
+
+  const bg = useColorModeValue("gray.100", "gray.900");
 
   const handleChange = (e) => {
     if (todo.text !== "") {
@@ -37,7 +44,7 @@ export const CreateItem = () => {
       <Input
         my="10px"
         placeholder="Make a todo 👊"
-        bg="gray.100"
+        bg={bg}
         value={todo.text}
         onChange={handleChange}
         onKeyDown={createTodo}

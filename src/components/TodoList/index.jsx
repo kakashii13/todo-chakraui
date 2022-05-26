@@ -1,9 +1,8 @@
-import { Box, List } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import React from "react";
 import { TodoItem } from "../TodoItem";
 import { useTodoContext } from "../../context/TodoContext";
 import { AnimatePresence, motion } from "framer-motion";
-
 export const TodoList = () => {
   const { items } = useTodoContext();
   return (

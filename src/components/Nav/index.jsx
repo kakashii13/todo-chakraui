@@ -1,4 +1,4 @@
-import { HStack, Icon, Stack, Text } from "@chakra-ui/react";
+import { HStack, Icon, Stack, Text, useColorMode } from "@chakra-ui/react";
 import {
   MdOutlineLogout,
   MdNightlight,
@@ -7,6 +7,8 @@ import {
 import React from "react";
 
 export const Nav = () => {
+  const { colorMode, toggleColorMode } = useColorMode();
+
   return (
     <HStack justifyContent="space-between" mt="20px">
       <Stack>
@@ -14,7 +16,10 @@ export const Nav = () => {
       </Stack>
       <HStack>
         <Icon as={MdOutlineLogout} />
-        <Icon as={MdOutlineLightMode} />
+        <Icon
+          as={colorMode === "light" ? MdOutlineLightMode : MdNightlight}
+          onClick={toggleColorMode}
+        />
       </HStack>
     </HStack>
   );

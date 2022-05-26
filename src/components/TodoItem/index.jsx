@@ -1,5 +1,5 @@
-import { Box, chakra, HStack, Icon, Text } from "@chakra-ui/react";
-import { isValidMotionProp, motion } from "framer-motion";
+import { Box, HStack, Icon, Text, useColorModeValue } from "@chakra-ui/react";
+import { motion } from "framer-motion";
 import React from "react";
 import { useTodoContext } from "../../context/TodoContext";
 import {
@@ -17,12 +17,10 @@ const variants = {
   },
 };
 
-const ChakraIcon = chakra(motion.i, {
-  shouldForwardProp: isValidMotionProp,
-});
-
 export const TodoItem = ({ text, completed, index, id }) => {
   const { items, setItems } = useTodoContext();
+
+  const bg = useColorModeValue("white", "gray.700");
 
   const handleDelete = () => {
     const newItems = [...items];
@@ -34,6 +32,10 @@ export const TodoItem = ({ text, completed, index, id }) => {
     const newItems = [...items];
     newItems[index].completed = true;
     setItems(newItems);
+
+    setTimeout(() => {
+      handleDelete();
+    }, 500);
   };
   return (
     <Box
@@ -43,7 +45,7 @@ export const TodoItem = ({ text, completed, index, id }) => {
       exit="hidden"
       variants={variants}
       layoutId={id}
-      bg="white"
+      bg={bg}
       borderRadius="md"
       my="10px"
       p="10px"
