@@ -1,10 +1,11 @@
-import { Input } from "@chakra-ui/react";
+import { FormControl, FormErrorMessage, Input } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useTodoContext } from "../../context/TodoContext";
 import { v4 as uuidv4 } from "uuid";
 
 export const CreateItem = () => {
   const { items, setItems } = useTodoContext();
+  const [error, setError] = useState(false);
   const [todo, setTodo] = useState({
     id: "",
     text: "",
@@ -12,20 +13,36 @@ export const CreateItem = () => {
   });
 
   const handleChange = (e) => {
-    if (e.key !== "Enter") return;
-    const newItems = [...items];
-    newItems.push({ ...todo, id: uuidv4() });
-    setItems(newItems);
-    setTodo({ ...todo, id: "", text: "" });
+    if (todo.text !== "") {
+      setError(false);
+    }
+    setTodo({ ...todo, text: e.target.value });
   };
+
+  const createTodo = (e) => {
+    if (e.key !== "Enter") return;
+    if (todo.text === "") {
+      setError(true);
+    } else {
+      setError(false);
+      const newItems = [...items];
+      newItems.unshift({ ...todo, id: uuidv4() });
+      setItems(newItems);
+      setTodo({ ...todo, id: "", text: "" });
+    }
+  };
+
   return (
-    <Input
-      my="10px"
-      placeholder="Make a todo 👊"
-      bg="gray.100"
-      value={todo.text}
-      onChange={(e) => setTodo({ ...todo, text: e.target.value })}
-      onKeyDown={handleChange}
-    />
+    <FormControl isInvalid={error}>
+      <Input
+        my="10px"
+        placeholder="Make a todo 👊"
+        bg="gray.100"
+        value={todo.text}
+        onChange={handleChange}
+        onKeyDown={createTodo}
+      />
+      {error && <FormErrorMessage>You must write something.</FormErrorMessage>}
+    </FormControl>
   );
 };

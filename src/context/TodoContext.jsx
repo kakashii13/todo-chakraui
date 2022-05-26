@@ -8,12 +8,12 @@ const INITIAL_TODO = [
   {
     id: "312hj314",
     text: "Este es un item de prueba",
-    confirm: false,
+    completed: true,
   },
   {
     id: "31213sf2hj314",
     text: "Este es un item de prueba 2",
-    confirm: false,
+    completed: false,
   },
 ];
 
