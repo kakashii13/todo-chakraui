@@ -4,6 +4,9 @@ import { ContextProvider } from "./context/TodoContext";
 import { Dashboard } from "./pages/Dashboard";
 import { Login } from "./pages/Login";
 import { Signup } from "./pages/Signup";
+import { getFirestoreApp } from "./firebase/config";
+
+getFirestoreApp();
 
 function App() {
   return (
