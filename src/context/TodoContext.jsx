@@ -1,4 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { doc, getFirestore, onSnapshot } from "firebase/firestore";
+import { auth } from "../firebase/config";
+import { useAuth } from "../hooks/useAuth";
 
 const todoContext = createContext();
 
@@ -18,13 +22,34 @@ const INITIAL_TODO = [
 ];
 
 export const ContextProvider = ({ children }) => {
-  const [items, setItems] = useState(INITIAL_TODO);
+  const [items, setItems] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
+  const { mapUser } = useAuth();
 
   useEffect(() => {
-    console.log(items);
-  }, [items]);
+    const onsubscriber = onAuthStateChanged(auth, (user) => {
+      const normalizedUser = mapUser(user);
+      setCurrentUser(normalizedUser);
+    });
+    return onsubscriber;
+  }, []);
+
+  useEffect(() => {
+    const getUserTodos = () => {
+      if (!currentUser) return;
+
+      const db = getFirestore();
+      const userRef = doc(db, "UsersTodo", currentUser.uid);
+      onSnapshot(userRef, (doc) => {
+        setItems(doc.data().todos);
+      });
+    };
+
+    getUserTodos();
+  }, [currentUser]);
+
   return (
-    <todoContext.Provider value={{ items, setItems }}>
+    <todoContext.Provider value={{ items, setItems, currentUser }}>
       {children}
     </todoContext.Provider>
   );

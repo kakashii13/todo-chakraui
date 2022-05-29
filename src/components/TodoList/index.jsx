@@ -8,7 +8,7 @@ export const TodoList = () => {
   return (
     <Box as={motion.ul}>
       <AnimatePresence>
-        {items.map((item, index) => (
+        {items?.map((item, index) => (
           <TodoItem
             key={item.id}
             text={item.text}

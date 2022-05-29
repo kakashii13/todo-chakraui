@@ -1,24 +1,48 @@
-import { HStack, Icon, Stack, Text, useColorMode } from "@chakra-ui/react";
+import {
+  Avatar,
+  HStack,
+  Icon,
+  Stack,
+  Text,
+  useColorMode,
+} from "@chakra-ui/react";
 import {
   MdOutlineLogout,
   MdNightlight,
   MdOutlineLightMode,
 } from "react-icons/md";
 import React from "react";
+import { useTodoContext } from "../../context/TodoContext";
+import { useAuth } from "../../hooks/useAuth";
+import { useNavigate } from "react-router";
 
 export const Nav = () => {
   const { colorMode, toggleColorMode } = useColorMode();
+  const { currentUser } = useTodoContext();
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    try {
+      logout();
+      navigate("/login");
+    } catch {
+      ("error");
+    }
+  };
 
   return (
     <HStack justifyContent="space-between" mt="20px">
       <Stack>
-        <Text>Mi logo</Text>
+        <Avatar src={currentUser?.photoURL} />
       </Stack>
       <HStack>
-        <Icon as={MdOutlineLogout} />
+        <Icon as={MdOutlineLogout} onClick={handleLogout} h="20px" w="20px" />
         <Icon
           as={colorMode === "light" ? MdOutlineLightMode : MdNightlight}
           onClick={toggleColorMode}
+          h="20px"
+          w="20px"
         />
       </HStack>
     </HStack>

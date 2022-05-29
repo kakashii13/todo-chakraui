@@ -4,15 +4,22 @@ import {
   Input,
   useColorModeValue,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTodoContext } from "../../context/TodoContext";
 import { v4 as uuidv4 } from "uuid";
+import {
+  arrayUnion,
+  doc,
+  getFirestore,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 
 export const CreateItem = () => {
-  const { items, setItems } = useTodoContext();
+  const { items, currentUser } = useTodoContext();
   const [error, setError] = useState(false);
   const [todo, setTodo] = useState({
-    id: "",
+    id: uuidv4(),
     text: "",
     complete: false,
   });
@@ -26,16 +33,28 @@ export const CreateItem = () => {
     setTodo({ ...todo, text: e.target.value });
   };
 
-  const createTodo = (e) => {
+  const createTodo = async (e) => {
     if (e.key !== "Enter") return;
     if (todo.text === "") {
       setError(true);
     } else {
       setError(false);
-      const newItems = [...items];
-      newItems.unshift({ ...todo, id: uuidv4() });
-      setItems(newItems);
-      setTodo({ ...todo, id: "", text: "" });
+      const userTodos = {
+        user: currentUser.email,
+        todos: [todo],
+      };
+
+      const db = getFirestore();
+      const userRef = doc(db, "UsersTodo", currentUser.uid);
+
+      if (items) {
+        await updateDoc(userRef, {
+          todos: arrayUnion({ ...todo, id: uuidv4() }),
+        });
+      } else {
+        await setDoc(userRef, userTodos);
+      }
+      setTodo({ text: "", complete: false });
     }
   };
 

@@ -17,18 +17,22 @@ const variants = {
 };
 
 export const Dashboard = () => {
-  const { items } = useTodoContext();
+  const { items, currentUser } = useTodoContext();
   return (
     <Stack spacing={20}>
       <Nav />
       <Stack>
         <Container>
           <Heading bgGradient="linear(to-r, #9964ce, #fc8600)" bgClip="text">
-            Hello user!
+            {`Hello, ${
+              currentUser?.displayName
+                ? currentUser?.displayName
+                : currentUser?.email
+            }`}
           </Heading>
           <Text>Today is Tuesday, May 24</Text>
           <CreateItem />
-          {items.length !== 0 ? (
+          {items?.length !== 0 ? (
             <TodoList />
           ) : (
             <Box
