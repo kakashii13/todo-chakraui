@@ -1,9 +1,9 @@
 import {
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
-  signInWithRedirect,
   signOut,
 } from "firebase/auth";
 import { auth } from "../firebase/config";
@@ -32,5 +32,9 @@ export const useAuth = (email, password) => {
     return signOut(auth);
   };
 
-  return { signWithGoogle, mapUser, logout, login, signup };
+  const resetPass = () => {
+    return sendPasswordResetEmail(auth, email);
+  };
+
+  return { signWithGoogle, mapUser, logout, login, signup, resetPass };
 };

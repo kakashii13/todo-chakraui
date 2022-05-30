@@ -1,5 +1,8 @@
 import React from "react";
+import { Navigate } from "react-router";
+import { useTodoContext } from "../../context/TodoContext";
 
 export const PrivateRoute = ({ children }) => {
-  return <div>PrivateRoute</div>;
+  const { currentUser } = useTodoContext();
+  return currentUser ? children : <Navigate to="/login" />;
 };

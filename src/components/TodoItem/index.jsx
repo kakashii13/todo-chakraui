@@ -7,6 +7,7 @@ import {
   MdCheckBoxOutlineBlank,
   MdCheckBox,
 } from "react-icons/md";
+import { doc, getFirestore, updateDoc } from "firebase/firestore";
 
 const variants = {
   hidden: {
@@ -18,14 +19,19 @@ const variants = {
 };
 
 export const TodoItem = ({ text, completed, index, id }) => {
-  const { items, setItems } = useTodoContext();
+  const { items, setItems, currentUser } = useTodoContext();
 
   const bg = useColorModeValue("white", "gray.700");
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     const newItems = [...items];
     newItems.splice(index, 1);
-    setItems(newItems);
+
+    const db = getFirestore();
+    const userRef = doc(db, "UsersTodo", currentUser.uid);
+    await updateDoc(userRef, {
+      todos: newItems,
+    });
   };
 
   const handleComplete = () => {

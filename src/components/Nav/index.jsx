@@ -34,7 +34,7 @@ export const Nav = () => {
   return (
     <HStack justifyContent="space-between" mt="20px">
       <Stack>
-        <Avatar src={currentUser?.photoURL} />
+        <Avatar src={currentUser?.photoURL} size="sm" />
       </Stack>
       <HStack>
         <Icon as={MdOutlineLogout} onClick={handleLogout} h="20px" w="20px" />

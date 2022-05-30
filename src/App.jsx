@@ -5,6 +5,8 @@ import { Dashboard } from "./pages/Dashboard";
 import { Login } from "./pages/Login";
 import { Signup } from "./pages/Signup";
 import { getFirestoreApp } from "./firebase/config";
+import { PrivateRoute } from "./components/PrivateRoute";
+import { ForgotPass } from "./pages/ForgotPass";
 
 getFirestoreApp();
 
@@ -16,7 +18,15 @@ function App() {
           <Routes>
             <Route path="login" element={<Login />} />
             <Route path="signup" element={<Signup />} />
-            <Route path="/" element={<Dashboard />} />
+            <Route path="forgot-password" element={<ForgotPass />} />
+            <Route
+              path="/"
+              element={
+                <PrivateRoute>
+                  <Dashboard />
+                </PrivateRoute>
+              }
+            />
           </Routes>
         </Container>
       </ContextProvider>

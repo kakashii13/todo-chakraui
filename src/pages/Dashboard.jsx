@@ -1,11 +1,12 @@
 import { Box, Container, Heading, Icon, Stack, Text } from "@chakra-ui/react";
 import { motion } from "framer-motion";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { BsClipboard } from "react-icons/bs";
 import { CreateItem } from "../components/CreateItem";
 import { Nav } from "../components/Nav";
 import { TodoList } from "../components/TodoList";
 import { useTodoContext } from "../context/TodoContext";
+import moment from "moment";
 
 const variants = {
   hidden: {
@@ -17,7 +18,14 @@ const variants = {
 };
 
 export const Dashboard = () => {
-  const { items, currentUser } = useTodoContext();
+  const { items, currentUser, todosLoading } = useTodoContext();
+  const [currentDate, setCurrentDate] = useState("");
+
+  useEffect(() => {
+    const date = moment().format("MMM Do YYYY");
+    setCurrentDate(date);
+  }, []);
+
   return (
     <Stack spacing={20}>
       <Nav />
@@ -30,9 +38,11 @@ export const Dashboard = () => {
                 : currentUser?.email
             }`}
           </Heading>
-          <Text>Today is Tuesday, May 24</Text>
+          <Text>{`Today is ${currentDate}`}</Text>
           <CreateItem />
-          {items?.length !== 0 ? (
+          {todosLoading ? (
+            <LoadingUi />
+          ) : items?.length !== 0 ? (
             <TodoList />
           ) : (
             <Box
