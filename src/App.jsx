@@ -7,6 +7,7 @@ import { Signup } from "./pages/Signup";
 import { getFirestoreApp } from "./firebase/config";
 import { PrivateRoute } from "./components/PrivateRoute";
 import { ForgotPass } from "./pages/ForgotPass";
+import { Home } from "./pages/Home";
 
 getFirestoreApp();
 
@@ -19,8 +20,9 @@ function App() {
             <Route path="login" element={<Login />} />
             <Route path="signup" element={<Signup />} />
             <Route path="forgot-password" element={<ForgotPass />} />
+            <Route path="/" element={<Home />} />
             <Route
-              path="/"
+              path="/dashboard"
               element={
                 <PrivateRoute>
                   <Dashboard />

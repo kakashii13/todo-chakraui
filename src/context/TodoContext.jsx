@@ -32,6 +32,7 @@ export const ContextProvider = ({ children }) => {
       onSnapshot(userRef, (doc) => {
         setItems(doc.data().todos);
       });
+
       setTodosLoading(false);
     };
 

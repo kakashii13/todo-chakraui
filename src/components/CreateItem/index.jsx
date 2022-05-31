@@ -4,16 +4,10 @@ import {
   Input,
   useColorModeValue,
 } from "@chakra-ui/react";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useTodoContext } from "../../context/TodoContext";
 import { v4 as uuidv4 } from "uuid";
-import {
-  arrayUnion,
-  doc,
-  getFirestore,
-  setDoc,
-  updateDoc,
-} from "firebase/firestore";
+import { doc, getFirestore, setDoc, updateDoc } from "firebase/firestore";
 
 export const CreateItem = () => {
   const { items, currentUser } = useTodoContext();
@@ -44,23 +38,27 @@ export const CreateItem = () => {
         todos: [todo],
       };
 
+      const newArray = [...items];
+      newArray.unshift({ ...todo, id: uuidv4() });
+
       const db = getFirestore();
       const userRef = doc(db, "UsersTodo", currentUser.uid);
 
       if (items) {
         await updateDoc(userRef, {
-          todos: arrayUnion({ ...todo, id: uuidv4() }),
+          todos: newArray,
         });
       } else {
         await setDoc(userRef, userTodos);
       }
-      setTodo({ text: "", complete: false });
     }
+    setTodo({ text: "", complete: false });
   };
 
   return (
     <FormControl isInvalid={error}>
       <Input
+        autoComplete="off"
         my="10px"
         placeholder="Make a todo 👊"
         bg={bg}

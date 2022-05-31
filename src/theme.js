@@ -14,6 +14,22 @@ export const theme = extendTheme({
       svg: {
         cursor: "pointer",
       },
+      li: {
+        bg: props.colorMode === "light" ? "white" : "gray.700",
+      },
     }),
+  },
+  components: {
+    Button: {
+      variants: {
+        solid: (props) => ({
+          bg: `${props.colorScheme}.500`,
+          color: "white",
+          _hover: {
+            backgroundColor: `${props.colorScheme}.600`,
+          },
+        }),
+      },
+    },
   },
 });

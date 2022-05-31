@@ -1,13 +1,12 @@
-import { Box, HStack, Icon, Text, useColorModeValue } from "@chakra-ui/react";
+import { Box, HStack, Icon, Text } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import React from "react";
-import { useTodoContext } from "../../context/TodoContext";
 import {
   MdDeleteOutline,
   MdCheckBoxOutlineBlank,
   MdCheckBox,
 } from "react-icons/md";
-import { doc, getFirestore, updateDoc } from "firebase/firestore";
+import { useTodo } from "../../hooks/useTodo";
 
 const variants = {
   hidden: {
@@ -18,31 +17,11 @@ const variants = {
   },
 };
 
-export const TodoItem = ({ text, completed, index, id }) => {
-  const { items, setItems, currentUser } = useTodoContext();
+export const TodoItem = ({ text, complete, index, id }) => {
+  const { handleComplete, handleDelete } = useTodo({
+    index,
+  });
 
-  const bg = useColorModeValue("white", "gray.700");
-
-  const handleDelete = async () => {
-    const newItems = [...items];
-    newItems.splice(index, 1);
-
-    const db = getFirestore();
-    const userRef = doc(db, "UsersTodo", currentUser.uid);
-    await updateDoc(userRef, {
-      todos: newItems,
-    });
-  };
-
-  const handleComplete = () => {
-    const newItems = [...items];
-    newItems[index].completed = true;
-    setItems(newItems);
-
-    setTimeout(() => {
-      handleDelete();
-    }, 500);
-  };
   return (
     <Box
       as={motion.li}
@@ -51,7 +30,6 @@ export const TodoItem = ({ text, completed, index, id }) => {
       exit="hidden"
       variants={variants}
       layoutId={id}
-      bg={bg}
       borderRadius="md"
       my="10px"
       p="10px"
@@ -68,9 +46,9 @@ export const TodoItem = ({ text, completed, index, id }) => {
           display="flex"
           alignItems="center"
         >
-          <Icon as={completed ? MdCheckBox : MdCheckBoxOutlineBlank} />
+          <Icon as={complete ? MdCheckBox : MdCheckBoxOutlineBlank} />
         </Box>
-        <Text maxW="sm" as={completed ? "s" : ""}>
+        <Text maxW="sm" as={complete ? "s" : ""}>
           {text}
         </Text>
       </HStack>

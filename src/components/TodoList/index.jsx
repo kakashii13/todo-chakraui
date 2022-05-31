@@ -12,7 +12,7 @@ export const TodoList = () => {
           <TodoItem
             key={item.id}
             text={item.text}
-            completed={item.completed}
+            complete={item.complete}
             index={index}
             id={item.id}
           />

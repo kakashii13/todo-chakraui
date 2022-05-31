@@ -29,7 +29,7 @@ export const Signup = () => {
     try {
       setLoading(true);
       await signup();
-      navigate("/");
+      navigate("/dashboard");
     } catch {
       setError("Ocurrio un error");
       setTimeout(() => {

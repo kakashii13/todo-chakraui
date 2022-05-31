@@ -1,11 +1,4 @@
-import {
-  Avatar,
-  HStack,
-  Icon,
-  Stack,
-  Text,
-  useColorMode,
-} from "@chakra-ui/react";
+import { Avatar, HStack, Icon, Stack, useColorMode } from "@chakra-ui/react";
 import {
   MdOutlineLogout,
   MdNightlight,
@@ -25,7 +18,7 @@ export const Nav = () => {
   const handleLogout = () => {
     try {
       logout();
-      navigate("/login");
+      navigate("/dashboard");
     } catch {
       ("error");
     }
