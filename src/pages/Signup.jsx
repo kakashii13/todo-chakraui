@@ -1,16 +1,8 @@
-import {
-  Button,
-  Container,
-  FormControl,
-  Heading,
-  HStack,
-  Input,
-  Text,
-  useColorModeValue,
-  VStack,
-} from "@chakra-ui/react";
+import { Container, Divider, Heading, VStack } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { Form } from "../components/FormUser";
+import { LoginWithGoogle } from "../components/LoginWithGoogle";
 import { useAuth } from "../hooks/useAuth";
 
 export const Signup = () => {
@@ -20,9 +12,6 @@ export const Signup = () => {
   const [error, setError] = useState("");
   const { signup } = useAuth(email, password);
   const navigate = useNavigate();
-
-  const bg = useColorModeValue("white", "gray.700");
-  const color = useColorModeValue("blackAlpha.600", "whiteAlpha.900");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -46,46 +35,16 @@ export const Signup = () => {
         <Heading>ToDo</Heading>
       </VStack>
       <Container maxW="md">
-        <form onSubmit={handleSubmit}>
-          <FormControl>
-            <Input
-              placeholder="Email"
-              type="email"
-              id="email"
-              my="10px"
-              bg={bg}
-              boxShadow="sm"
-              isRequired
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <Input
-              type="password"
-              id="password"
-              placeholder="Password"
-              my="10px"
-              bg={bg}
-              boxShadow="sm"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <Button
-              type="submits"
-              colorScheme="twitter"
-              minW="100%"
-              mt="10px"
-              isLoading={loading}
-            >
-              Signup
-            </Button>
-            <HStack justifyContent="center" mt="10px">
-              <Text color={color}>You have already an account?</Text>
-              <Link to="/login">
-                <Text color="blue.500">Login</Text>
-              </Link>
-            </HStack>
-          </FormControl>
-        </form>
+        <Form
+          loading={loading}
+          handleSubmit={handleSubmit}
+          email={email}
+          password={password}
+          setEmail={setEmail}
+          setPassword={setPassword}
+        />
+        <Divider />
+        <LoginWithGoogle />
       </Container>
     </VStack>
   );

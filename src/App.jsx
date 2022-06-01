@@ -8,6 +8,8 @@ import { getFirestoreApp } from "./firebase/config";
 import { PrivateRoute } from "./components/PrivateRoute";
 import { ForgotPass } from "./pages/ForgotPass";
 import { Home } from "./pages/Home";
+import "@fontsource/raleway/400.css";
+import "@fontsource/raleway/700.css";
 
 getFirestoreApp();
 

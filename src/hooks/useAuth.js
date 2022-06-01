@@ -18,7 +18,7 @@ export const useAuth = (email, password) => {
   };
 
   const mapUser = (user) => {
-    if (!user) return;
+    if (!user) return user;
     const { displayName, photoURL, email, uid } = user;
     return { displayName, photoURL, email, uid };
   };

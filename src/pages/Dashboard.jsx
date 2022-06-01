@@ -1,4 +1,4 @@
-import { Container, Heading, Stack, Text } from "@chakra-ui/react";
+import { Container, Heading, Skeleton, Stack, Text } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
 import { CreateItem } from "../components/CreateItem";
 import { Nav } from "../components/Nav";
@@ -6,15 +6,18 @@ import { TodoList } from "../components/TodoList";
 import { useTodoContext } from "../context/TodoContext";
 import { EmptyIcon } from "../components/EmptyIcon";
 import { LoadingUi } from "../components/LoadingUi";
-import moment from "moment";
 
 export const Dashboard = () => {
-  const { items, currentUser, todosLoading } = useTodoContext();
+  const { items, currentUser } = useTodoContext();
   const [currentDate, setCurrentDate] = useState("");
 
+  // buscar como hacerlo
   useEffect(() => {
-    const date = moment().format("MMM Do YYYY");
-    setCurrentDate(date);
+    const handleDate = () => {
+      const year = new Date().getDay();
+      setCurrentDate(year);
+    };
+    return handleDate;
   }, []);
 
   return (
@@ -23,21 +26,15 @@ export const Dashboard = () => {
       <Stack>
         <Container>
           <Heading bgGradient="linear(to-r, #9964ce, #fc8600)" bgClip="text">
-            {`Hello, ${
-              currentUser?.displayName
-                ? currentUser?.displayName
-                : currentUser?.email
-            }`}
+            {currentUser === undefined ? (
+              <Skeleton h="40px" borderRadius="md" />
+            ) : (
+              `Hello, ${currentUser?.displayName ? currentUser?.displayName : currentUser?.email}`
+            )}
           </Heading>
           <Text>{`Today is ${currentDate}`}</Text>
           <CreateItem />
-          {todosLoading ? (
-            <LoadingUi />
-          ) : items?.length !== 0 ? (
-            <TodoList />
-          ) : (
-            <EmptyIcon />
-          )}
+          {items === undefined ? <LoadingUi /> : items?.length !== 0 ? <TodoList /> : <EmptyIcon />}
         </Container>
       </Stack>
     </Stack>

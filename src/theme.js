@@ -1,6 +1,9 @@
 import { extendTheme } from "@chakra-ui/react";
 
 export const theme = extendTheme({
+  fonts: {
+    body: `'Raleway', sans-serif`,
+  },
   config: {
     initialColorMode: "light",
     useSystemColorMode: false,
@@ -16,6 +19,9 @@ export const theme = extendTheme({
       },
       li: {
         bg: props.colorMode === "light" ? "white" : "gray.700",
+      },
+      input: {
+        bg: props.colorMode === "light" ? "gray.100" : "gray.900",
       },
     }),
   },

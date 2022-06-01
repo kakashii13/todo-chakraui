@@ -35,21 +35,29 @@ export const Home = () => {
             <Text>Things</Text>
             <Text>Todo</Text>
           </VStack>
-          <HStack spacing={5}>
+          <HStack spacing={1}>
             <Link to="/login">
-              <Text>Login</Text>
+              <Button variant="ghost">Login</Button>
             </Link>
             <Link to="/signup">
-              <Button colorScheme="twitter">Signup</Button>
+              <Button variant="ghost">Signup</Button>
             </Link>
           </HStack>
         </HStack>
         <Stack>
-          <Heading bgGradient="linear(to-r, #9964ce, #fc8600)" bgClip="text">
-            Hello User!
-          </Heading>
           <VStack>
-            <Input isDisabled my="10px" placeholder="Make a todo 👊" bg={bg} />
+            <Heading>Organize your work and life.</Heading>
+            <Heading as="h2" fontSize="20px" fontWeight="400" maxW="xs" textAlign="center">
+              Become organized, and productivity with Things Todo.
+            </Heading>
+            <Link to="/signup">
+              <Button my="10px" colorScheme="twitter">
+                Star for free
+              </Button>
+            </Link>
+          </VStack>
+          <VStack>
+            <Input isReadOnly my="10px" placeholder="Make a todo 👊" />
             <List w="100%">
               {INITIAL_TODOS.map((item) => (
                 <ListItem
@@ -63,9 +71,7 @@ export const Home = () => {
                   justifyContent="space-between"
                 >
                   <HStack>
-                    <Icon
-                      as={item.completed ? MdCheckBox : MdCheckBoxOutlineBlank}
-                    />
+                    <Icon as={item.completed ? MdCheckBox : MdCheckBoxOutlineBlank} />
                     <Text maxW="sm" as={item.completed ? "s" : ""}>
                       {item.text}
                     </Text>

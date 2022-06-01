@@ -4,5 +4,6 @@ import { useTodoContext } from "../../context/TodoContext";
 
 export const PrivateRoute = ({ children }) => {
   const { currentUser } = useTodoContext();
-  return currentUser ? children : <Navigate to="/login" />;
+
+  return currentUser !== null ? children : <Navigate to="/login" />;
 };
