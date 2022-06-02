@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { LoginWithGoogle } from "../components/LoginWithGoogle";
 import { Form } from "../components/FormUser";
+import { AlertError } from "../components/Alert";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
@@ -21,11 +22,11 @@ export const Login = () => {
       await login();
       navigate("/dashboard");
     } catch {
-      setError("No se ha podido crear la cuenta");
+      setError("There was an error, try again.");
       setTimeout(() => {
         setError("");
         setLoading(false);
-      }, 1500);
+      }, 2000);
     }
   };
 
@@ -36,6 +37,7 @@ export const Login = () => {
         <Heading>ToDo</Heading>
       </VStack>
       <Container maxW="md">
+        {error && <AlertError errorMessage={error} />}
         <Form
           isLogin
           loading={loading}

@@ -11,11 +11,10 @@ export const Dashboard = () => {
   const { items, currentUser } = useTodoContext();
   const [currentDate, setCurrentDate] = useState("");
 
-  // buscar como hacerlo
   useEffect(() => {
     const handleDate = () => {
-      const year = new Date().getDay();
-      setCurrentDate(year);
+      const date = 5;
+      setCurrentDate(date);
     };
     return handleDate;
   }, []);
@@ -32,7 +31,7 @@ export const Dashboard = () => {
               `Hello, ${currentUser?.displayName ? currentUser?.displayName : currentUser?.email}`
             )}
           </Heading>
-          <Text>{`Today is ${currentDate}`}</Text>
+          <Text mt="10px">{`Today is ${currentDate}`}</Text>
           <CreateItem />
           {items === undefined ? <LoadingUi /> : items?.length !== 0 ? <TodoList /> : <EmptyIcon />}
         </Container>

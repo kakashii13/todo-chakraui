@@ -1,6 +1,7 @@
 import { Container, Divider, Heading, VStack } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { AlertError } from "../components/Alert";
 import { Form } from "../components/FormUser";
 import { LoginWithGoogle } from "../components/LoginWithGoogle";
 import { useAuth } from "../hooks/useAuth";
@@ -20,11 +21,11 @@ export const Signup = () => {
       await signup();
       navigate("/dashboard");
     } catch {
-      setError("Ocurrio un error");
+      setError("There was an error, try again.");
       setTimeout(() => {
         setError("");
         setLoading(false);
-      }, 1500);
+      }, 2000);
     }
   };
 
@@ -35,6 +36,7 @@ export const Signup = () => {
         <Heading>ToDo</Heading>
       </VStack>
       <Container maxW="md">
+        {error && <AlertError errorMessage={error} />}
         <Form
           loading={loading}
           handleSubmit={handleSubmit}
