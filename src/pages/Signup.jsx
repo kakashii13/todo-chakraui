@@ -46,7 +46,7 @@ export const Signup = () => {
           setPassword={setPassword}
         />
         <Divider />
-        <LoginWithGoogle />
+        <LoginWithGoogle setError={setError} />
       </Container>
     </VStack>
   );

@@ -46,7 +46,7 @@ export const Home = () => {
         </HStack>
         <Stack>
           <VStack>
-            <Heading>Organize your work and life.</Heading>
+            <Heading textAlign="center">Organize your work and life.</Heading>
             <Heading as="h2" fontSize="20px" fontWeight="400" maxW="xs" textAlign="center">
               Become organized, and productivity with Things Todo.
             </Heading>

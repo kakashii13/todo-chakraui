@@ -48,7 +48,7 @@ export const Login = () => {
           setPassword={setPassword}
         />
         <Divider />
-        <LoginWithGoogle />
+        <LoginWithGoogle setError={setError} />
       </Container>
     </VStack>
   );

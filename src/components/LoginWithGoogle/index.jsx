@@ -3,7 +3,7 @@ import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from "react-router";
 import { useAuth } from "../../hooks/useAuth";
 
-export const LoginWithGoogle = () => {
+export const LoginWithGoogle = ({ setError }) => {
   const { signWithGoogle } = useAuth();
 
   const navigate = useNavigate();
@@ -18,7 +18,10 @@ export const LoginWithGoogle = () => {
       await signWithGoogle();
       navigate("/dashboard");
     } catch {
-      error("No se puede logear con esta cuenta");
+      setError("There was an error, try again.");
+      setTimeout(() => {
+        setError("");
+      }, 2000);
     }
   };
   return (
