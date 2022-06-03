@@ -6,6 +6,7 @@ import { TodoList } from "../components/TodoList";
 import { useTodoContext } from "../context/TodoContext";
 import { EmptyIcon } from "../components/EmptyIcon";
 import { LoadingUi } from "../components/LoadingUi";
+import dayjs from "dayjs";
 
 export const Dashboard = () => {
   const { items, currentUser } = useTodoContext();
@@ -13,7 +14,7 @@ export const Dashboard = () => {
 
   useEffect(() => {
     const handleDate = () => {
-      const date = 5;
+      const date = dayjs().format("DD MMM YYYY");
       setCurrentDate(date);
     };
     return handleDate;
