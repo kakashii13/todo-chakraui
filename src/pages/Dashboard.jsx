@@ -1,24 +1,14 @@
-import { Container, Heading, Skeleton, Stack, Text } from "@chakra-ui/react";
-import React, { useState, useEffect } from "react";
+import { Container, Heading, Skeleton, Stack } from "@chakra-ui/react";
+import React from "react";
 import { CreateItem } from "../components/CreateItem";
 import { Nav } from "../components/Nav";
 import { TodoList } from "../components/TodoList";
 import { useTodoContext } from "../context/TodoContext";
 import { EmptyIcon } from "../components/EmptyIcon";
 import { LoadingUi } from "../components/LoadingUi";
-import dayjs from "dayjs";
 
 export const Dashboard = () => {
-  const { items, currentUser } = useTodoContext();
-  const [currentDate, setCurrentDate] = useState("");
-
-  useEffect(() => {
-    const handleDate = () => {
-      const date = dayjs().format("DD MMM YYYY");
-      setCurrentDate(date);
-    };
-    return handleDate;
-  }, []);
+  const { items, currentUser, userName } = useTodoContext();
 
   return (
     <Stack spacing={20}>
@@ -29,12 +19,17 @@ export const Dashboard = () => {
             {currentUser === undefined ? (
               <Skeleton h="40px" borderRadius="md" />
             ) : (
-              `Hello, ${currentUser?.displayName ? currentUser?.displayName : currentUser?.email}`
+              `Hello, ${currentUser?.displayName ? currentUser?.displayName : userName}`
             )}
           </Heading>
-          <Text mt="10px">{`Today is ${currentDate}`}</Text>
           <CreateItem />
-          {items === undefined ? <LoadingUi /> : items?.length !== 0 ? <TodoList /> : <EmptyIcon />}
+          {items === null ? (
+            <LoadingUi />
+          ) : items !== undefined && items?.length !== 0 ? (
+            <TodoList />
+          ) : (
+            <EmptyIcon />
+          )}
         </Container>
       </Stack>
     </Stack>

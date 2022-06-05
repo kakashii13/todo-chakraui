@@ -9,8 +9,9 @@ const todoContext = createContext();
 export const useTodoContext = () => useContext(todoContext);
 
 export const ContextProvider = ({ children }) => {
-  const [items, setItems] = useState(undefined);
+  const [items, setItems] = useState(null);
   const [currentUser, setCurrentUser] = useState(undefined);
+  const [userName, setUserName] = useState(undefined);
   const { mapUser } = useAuth();
 
   useEffect(() => {
@@ -27,7 +28,12 @@ export const ContextProvider = ({ children }) => {
       const db = getFirestore();
       const userRef = doc(db, "UsersTodo", currentUser.uid);
       onSnapshot(userRef, (doc) => {
-        setItems(doc.data().todos);
+        const todos = doc.data()?.todos;
+        if (todos) {
+          setItems(todos);
+        } else {
+          setItems(undefined);
+        }
       });
     };
 
@@ -35,6 +41,8 @@ export const ContextProvider = ({ children }) => {
   }, [currentUser]);
 
   return (
-    <todoContext.Provider value={{ items, setItems, currentUser }}>{children}</todoContext.Provider>
+    <todoContext.Provider value={{ items, setItems, currentUser, userName, setUserName }}>
+      {children}
+    </todoContext.Provider>
   );
 };

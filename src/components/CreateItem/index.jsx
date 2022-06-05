@@ -1,16 +1,11 @@
-import {
-  FormControl,
-  FormErrorMessage,
-  Input,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { FormControl, FormErrorMessage, Input, useColorModeValue } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useTodoContext } from "../../context/TodoContext";
 import { v4 as uuidv4 } from "uuid";
 import { doc, getFirestore, setDoc, updateDoc } from "firebase/firestore";
 
 export const CreateItem = () => {
-  const { items, currentUser } = useTodoContext();
+  const { items, currentUser, userName } = useTodoContext();
   const [error, setError] = useState(false);
   const [todo, setTodo] = useState({
     id: uuidv4(),
@@ -35,16 +30,16 @@ export const CreateItem = () => {
       setError(false);
       const userTodos = {
         user: currentUser.email,
+        userName: userName || currentUser.displayName,
         todos: [todo],
       };
-
-      const newArray = [...items];
-      newArray.unshift({ ...todo, id: uuidv4() });
 
       const db = getFirestore();
       const userRef = doc(db, "UsersTodo", currentUser.uid);
 
       if (items) {
+        const newArray = [...items];
+        newArray.unshift({ ...todo, id: uuidv4() });
         await updateDoc(userRef, {
           todos: newArray,
         });

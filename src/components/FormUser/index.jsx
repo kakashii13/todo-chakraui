@@ -9,6 +9,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import { useTodoContext } from "../../context/TodoContext";
 
 export const Form = ({
   handleSubmit,
@@ -19,6 +20,7 @@ export const Form = ({
   email,
   password,
 }) => {
+  const { setUserName } = useTodoContext();
   const bg = useColorModeValue("white", "gray.700");
   const color = useColorModeValue("blackAlpha.600", "whiteAlpha.900");
   return (
@@ -41,6 +43,7 @@ export const Form = ({
           placeholder="Password"
           my="10px"
           bg={bg}
+          isRequired
           boxShadow="sm"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
@@ -52,6 +55,17 @@ export const Form = ({
               <Text color="blue.500">Forgot password?</Text>
             </Link>
           </HStack>
+        )}
+        {!isLogin && (
+          <Input
+            my="10px"
+            bg={bg}
+            boxShadow="sm"
+            placeholder="UserName"
+            maxLength="15"
+            isRequired
+            onChange={(e) => setUserName(e.target.value)}
+          />
         )}
         <Button type="submit" colorScheme="twitter" minW="100%" isLoading={loading} my="20px">
           {isLogin ? "Log in" : "Sign up"}
